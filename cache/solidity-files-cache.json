@@ -36,6 +36,42 @@
       "artifacts": [
         "Lock"
       ]
+    },
+    "/home/hieu/workspace/Blockchain/Hardhat-learn/contracts/Token.sol": {
+      "lastModificationDate": 1715596241449,
+      "contentHash": "2fe6a741fe70a2f5cc7eed2379dc28ef",
+      "sourceName": "contracts/Token.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "Token"
+      ]
     }
   }
 }
