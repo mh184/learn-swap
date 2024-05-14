@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/hieu/workspace/Blockchain/Hardhat-learn/contracts/Lock.sol": {
-      "lastModificationDate": 1715590384647,
-      "contentHash": "dacf0d5cb5b45dc83086de5bc1c26c2c",
+      "lastModificationDate": 1715674292916,
+      "contentHash": "c53e1c8e97886e6cfb72400308e26b3a",
       "sourceName": "contracts/Lock.sol",
       "solcConfig": {
         "version": "0.8.24",
