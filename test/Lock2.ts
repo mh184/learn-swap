@@ -1,5 +1,8 @@
 import { expect } from 'chai'
-import { loadFixture, time } from '@nomicfoundation/hardhat-toolbox-viem/network-helpers'
+import {
+  loadFixture,
+  time
+} from '@nomicfoundation/hardhat-toolbox-viem/network-helpers'
 import { parseGwei } from 'viem'
 import { viem } from 'hardhat'
 import { GetContractReturnType } from '@nomicfoundation/hardhat-viem/types'
@@ -14,7 +17,7 @@ describe('Lock2', async function () {
     // deploy a lock contract where funds can be withdrawn
     // one year in the future
     const lock = await viem.deployContract('Lock', [unlockTime], {
-      value: lockedAmount,
+      value: lockedAmount
     })
     console.log('lock.address 0:', lock.address)
     const balance = await lock.read.balance()
@@ -23,7 +26,10 @@ describe('Lock2', async function () {
   }
 
   // Does loadFixture() snapshot the state of the chain / data in the contract?
-  async function commitLoadFixture(lock: GetContractReturnType<Lock$Type['abi']>, newBalance: bigint) {
+  async function commitLoadFixture(
+    lock: GetContractReturnType<Lock$Type['abi']>,
+    newBalance: bigint
+  ) {
     const balance = await lock.read.balance()
     console.log('before: deployOneYearLockFixture ~ balance:', balance)
     await lock.write.changeBalance([newBalance])
@@ -42,7 +48,9 @@ describe('Lock2', async function () {
   it('Should revert with the right error if called too soon', async function () {
     const { lock } = await loadFixture(deployOneYearLockFixture)
     console.log('lock.address 2:', lock.address)
-    await expect(lock.write.withdraw()).to.be.rejectedWith("You can't withdraw yet")
+    await expect(lock.write.withdraw()).to.be.rejectedWith(
+      "You can't withdraw yet"
+    )
     console.log('lock.address 2:', lock.address)
     await commitLoadFixture(lock, 2n)
   })
@@ -58,11 +66,17 @@ describe('Lock2', async function () {
 
     // We use lock.connect() to send a transaction from another account
     // Case1:
-    const lockAsOtherAccount = await viem.getContractAt('Lock', lock.address, { client: { wallet: otherAccount } })
+    const lockAsOtherAccount = await viem.getContractAt('Lock', lock.address, {
+      client: { wallet: otherAccount }
+    })
     console.log('lock.address 4:', lockAsOtherAccount.address)
-    await expect(lockAsOtherAccount.write.withdraw()).to.be.rejectedWith("You aren't the owner")
+    await expect(lockAsOtherAccount.write.withdraw()).to.be.rejectedWith(
+      "You aren't the owner"
+    )
     // case2:
-    await expect(lock.write.withdraw({ account: otherAccount.account })).to.be.rejectedWith("You aren't the owner")
+    await expect(
+      lock.write.withdraw({ account: otherAccount.account })
+    ).to.be.rejectedWith("You aren't the owner")
     console.log('lock.address 4:', lockAsOtherAccount.address)
     await commitLoadFixture(lock, 3n)
   })

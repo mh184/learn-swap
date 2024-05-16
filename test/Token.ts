@@ -1,6 +1,11 @@
-import hre from 'hardhat'
+import { viem } from 'hardhat'
 
 describe('Token', async function () {
-  const token = await hre.viem.deployContract('Token', [])
-  token.read.totalSupply()
+  const tokenSupply = 1000000n
+
+  const tka = await viem.deployContract('Token', [
+    'Token A',
+    'TKA',
+    tokenSupply
+  ])
 })
