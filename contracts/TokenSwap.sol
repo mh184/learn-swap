@@ -15,15 +15,22 @@ contract TokenSwap is Ownable(msg.sender) {
   // mapping(address => uint) public _swapRates; // 1 addressToken = swapRate wei
   mapping(address => TokenMetadata) public _tokensMetadata;
 
-  event Swap(address indexed sender, uint amount, address indexed receiver);
+  event Swap(
+    address indexed sender,
+    // address indexed recipient,
+    address indexed tka_,
+    address indexed tkb_,
+    uint amount,
+    uint receivedAmount,
+    uint decimalA,
+    uint decimalB
+  );
 
   constructor() {
     _admin = msg.sender;
   }
 
   function decimals() internal pure returns (uint) {
-    // define an var is current time
-
     return 18;
   }
 
@@ -71,37 +78,35 @@ contract TokenSwap is Ownable(msg.sender) {
       _tkb = ERC20(tkb_);
 
       _swapRateTKB = getSwapRate(tkb_);
-      amountToReceive = (msg.value * 10 ** decimals()) / _swapRateTKB;
+      amountToReceive = (msg.value * _tkb.decimals()) / _swapRateTKB;
       _tkb.transfer(msg.sender, amountToReceive);
+      emit Swap(msg.sender, tka_, tkb_, amount, amountToReceive, decimals(), _tkb.decimals());
+      return;
     }
 
     if (tkb_ == address(0)) {
       _tka = ERC20(tka_);
       _swapRateTKA = getSwapRate(tka_);
-      amountToReceive = (amount * _swapRateTKA) / 10 ** decimals();
-      payable(msg.sender).transfer(amountToReceive);
-    } else {
-      _tka = ERC20(tka_);
-      _tkb = ERC20(tkb_);
-      _swapRateTKA = getSwapRate(tka_);
-      _swapRateTKB = getSwapRate(tkb_);
-      amountToReceive =
-        (amount * _swapRateTKA * _tkb.decimals()) /
-        _swapRateTKB /
-        _tka.decimals();
+      amountToReceive = (amount * _swapRateTKA) / _tka.decimals();
       _tka.transferFrom(msg.sender, address(this), amount);
-      _tkb.transfer(msg.sender, amountToReceive);
+      payable(msg.sender).transfer(amountToReceive);
+      emit Swap(msg.sender, tka_, tkb_, amount, amountToReceive, _tka.decimals(), decimals());
+      return;
     }
 
-    emit Swap(msg.sender, amount, address(this));
+    _tka = ERC20(tka_);
+    _tkb = ERC20(tkb_);
+    _swapRateTKA = getSwapRate(tka_);
+    _swapRateTKB = getSwapRate(tkb_);
+    amountToReceive = (amount * _swapRateTKA * _tkb.decimals()) / _swapRateTKB / _tka.decimals();
+    _tka.transferFrom(msg.sender, address(this), amount);
+    _tkb.transfer(msg.sender, amountToReceive);
+    emit Swap(msg.sender, tka_, tkb_, amount, amountToReceive, _tka.decimals(), _tkb.decimals());
   }
 
   modifier _checkLockTime(address token) {
     if (token != address(0)) {
-      require(
-        _tokensMetadata[token].lockTime < block.timestamp,
-        'Lock time is in the past'
-      );
+      require(_tokensMetadata[token].lockTime < block.timestamp, 'Lock time is in the past');
     }
     _;
   }

@@ -1,45 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/hieu/workspace/Blockchain/Hardhat-learn/contracts/Swap.sol": {
-      "lastModificationDate": 1715838199147,
-      "contentHash": "80118c9a18f061b94e47e866e34d898c",
-      "sourceName": "contracts/Swap.sol",
-      "solcConfig": {
-        "version": "0.8.24",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "@openzeppelin/contracts/access/Ownable.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.24"
-      ],
-      "artifacts": [
-        "dxfc"
-      ]
-    },
     "/home/hieu/workspace/Blockchain/Hardhat-learn/contracts/ERC20Mintable.sol": {
       "lastModificationDate": 1715828474533,
       "contentHash": "2e432b70cc1c90d07fd1be92a5b12c87",
@@ -346,8 +307,8 @@
       ]
     },
     "/home/hieu/workspace/Blockchain/Hardhat-learn/contracts/TokenSwap.sol": {
-      "lastModificationDate": 1715912922512,
-      "contentHash": "1c49e752fda6373a302541861820ec5f",
+      "lastModificationDate": 1715919449566,
+      "contentHash": "e8719c9addd6b6c564b879b5881ed26f",
       "sourceName": "contracts/TokenSwap.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -463,8 +424,8 @@
       ]
     },
     "/home/hieu/workspace/Blockchain/Hardhat-learn/contracts/Lock.sol": {
-      "lastModificationDate": 1715914768747,
-      "contentHash": "0a6a84511d08a3e88f9f2b55ed2266eb",
+      "lastModificationDate": 1715916035569,
+      "contentHash": "c6013b21706e7c0bd449f8e3014e08a0",
       "sourceName": "contracts/Lock.sol",
       "solcConfig": {
         "version": "0.8.24",
