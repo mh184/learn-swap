@@ -80,18 +80,18 @@ contract TokenSwap is Ownable(msg.sender) {
       _swapRateTKA = getSwapRate(tka_);
       amountToReceive = (amount * _swapRateTKA) / 10 ** decimals();
       payable(msg.sender).transfer(amountToReceive);
+    } else {
+      _tka = ERC20(tka_);
+      _tkb = ERC20(tkb_);
+      _swapRateTKA = getSwapRate(tka_);
+      _swapRateTKB = getSwapRate(tkb_);
+      amountToReceive =
+        (amount * _swapRateTKA * _tkb.decimals()) /
+        _swapRateTKB /
+        _tka.decimals();
+      _tka.transferFrom(msg.sender, address(this), amount);
+      _tkb.transfer(msg.sender, amountToReceive);
     }
-
-    _tka = ERC20(tka_);
-    _tkb = ERC20(tkb_);
-    _swapRateTKA = getSwapRate(tka_);
-    _swapRateTKB = getSwapRate(tkb_);
-    amountToReceive =
-      (amount * _swapRateTKA * _tkb.decimals()) /
-      _swapRateTKB /
-      _tka.decimals();
-    _tka.transferFrom(msg.sender, address(this), amount);
-    _tkb.transfer(msg.sender, amountToReceive);
 
     emit Swap(msg.sender, amount, address(this));
   }
