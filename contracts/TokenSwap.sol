@@ -3,7 +3,7 @@ pragma solidity ^0.8.24;
 
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
-// import './Token.sol';
+import 'hardhat/console.sol';
 
 struct TokenMetadata {
   uint swapRate;
@@ -74,20 +74,20 @@ contract TokenSwap is Ownable(msg.sender) {
     uint amountToReceive;
 
     if (tka_ == address(0)) {
-      require(msg.value != 0, 'Invalid amount');
+      require(msg.value != 0, 'Invalid amount of ether');
       _tkb = ERC20(tkb_);
 
       _swapRateTKB = getSwapRate(tkb_);
-      amountToReceive = (msg.value * _tkb.decimals()) / _swapRateTKB;
+      amountToReceive = (msg.value * (10 ** _tkb.decimals())) / _swapRateTKB;
       _tkb.transfer(msg.sender, amountToReceive);
-      emit Swap(msg.sender, tka_, tkb_, amount, amountToReceive, decimals(), _tkb.decimals());
+      emit Swap(msg.sender, tka_, tkb_, msg.value, amountToReceive, decimals(), _tkb.decimals());
       return;
     }
 
     if (tkb_ == address(0)) {
       _tka = ERC20(tka_);
       _swapRateTKA = getSwapRate(tka_);
-      amountToReceive = (amount * _swapRateTKA) / _tka.decimals();
+      amountToReceive = (amount * _swapRateTKA) / (10 ** _tka.decimals());
       _tka.transferFrom(msg.sender, address(this), amount);
       payable(msg.sender).transfer(amountToReceive);
       emit Swap(msg.sender, tka_, tkb_, amount, amountToReceive, _tka.decimals(), decimals());
@@ -98,7 +98,10 @@ contract TokenSwap is Ownable(msg.sender) {
     _tkb = ERC20(tkb_);
     _swapRateTKA = getSwapRate(tka_);
     _swapRateTKB = getSwapRate(tkb_);
-    amountToReceive = (amount * _swapRateTKA * _tkb.decimals()) / _swapRateTKB / _tka.decimals();
+    amountToReceive =
+      (amount * _swapRateTKA * (10 ** _tkb.decimals())) /
+      _swapRateTKB /
+      (10 ** _tka.decimals());
     _tka.transferFrom(msg.sender, address(this), amount);
     _tkb.transfer(msg.sender, amountToReceive);
     emit Swap(msg.sender, tka_, tkb_, amount, amountToReceive, _tka.decimals(), _tkb.decimals());
@@ -115,4 +118,10 @@ contract TokenSwap is Ownable(msg.sender) {
     _checkOwner();
     _;
   }
+
+  // * receive function
+  receive() external payable {}
+
+  // * fallback function
+  fallback() external payable {}
 }

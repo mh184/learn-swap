@@ -5,7 +5,7 @@ import {
 } from '@nomicfoundation/hardhat-toolbox-viem/network-helpers'
 import { parseGwei } from 'viem'
 import { viem } from 'hardhat'
-import { GetContractReturnType } from '@nomicfoundation/hardhat-viem/types'
+import { getContractAt, GetContractReturnType } from '@nomicfoundation/hardhat-viem/types'
 import { Lock$Type } from '../artifacts/contracts/Lock.sol/Lock'
 
 describe('Lock2', async function () {
@@ -66,6 +66,7 @@ describe('Lock2', async function () {
 
     // We use lock.connect() to send a transaction from another account
     // Case1:
+    getContractAt
     const lockAsOtherAccount = await viem.getContractAt('Lock', lock.address, {
       client: { wallet: otherAccount }
     })
