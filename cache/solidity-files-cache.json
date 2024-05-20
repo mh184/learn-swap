@@ -268,8 +268,8 @@
       ]
     },
     "/home/hieu/workspace/Blockchain/Hardhat-learn/contracts/Token.sol": {
-      "lastModificationDate": 1715937921166,
-      "contentHash": "48cb6b957412968edd779341664f026c",
+      "lastModificationDate": 1716192178715,
+      "contentHash": "6e6d4c390aa2ac6470ca956f5ab4c7e1",
       "sourceName": "contracts/Token.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -297,7 +297,9 @@
       },
       "imports": [
         "./ERC20Mintable.sol",
-        "@openzeppelin/contracts/access/Ownable.sol"
+        "./ERC20Lockable.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "hardhat/console.sol"
       ],
       "versionPragmas": [
         "^0.8.24"
@@ -497,6 +499,45 @@
       ],
       "artifacts": [
         "Lock"
+      ]
+    },
+    "/home/hieu/workspace/Blockchain/Hardhat-learn/contracts/ERC20Lockable.sol": {
+      "lastModificationDate": 1716192122753,
+      "contentHash": "386e54cdba993b2e5fd099ea62b054c5",
+      "sourceName": "contracts/ERC20Lockable.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "ERC20Lockable"
       ]
     }
   }

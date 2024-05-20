@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
 import './ERC20Mintable.sol';
+import './ERC20Lockable.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
+import 'hardhat/console.sol';
 
-contract Token is ERC20Mintable {
+contract Token is ERC20Mintable, ERC20Lockable {
   uint8 private _decimal;
+
   constructor(
     string memory name_,
     string memory symbol_,
@@ -17,5 +20,13 @@ contract Token is ERC20Mintable {
 
   function decimals() public view virtual override returns (uint8) {
     return _decimal;
+  }
+
+  function _update(
+    address from,
+    address to,
+    uint256 value
+  ) internal override(ERC20, ERC20Lockable) {
+    ERC20Lockable._update(from, to, value);
   }
 }
